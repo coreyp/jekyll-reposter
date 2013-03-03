@@ -71,6 +71,7 @@ module Jekyll
       date = entry.published.strftime("%Y-%m-%d")
       slug = entry.title.to_url
       slug.gsub!(/[^\w]+/,"-")
+      # this is where to change the directory creation behavior — CP old was File.join @dir, date
       filename = File.join @dir, date + "-" + slug  + ".markdown"
       # stringex ignores "->", url error at webrick
       unless File.exists? filename
@@ -93,10 +94,11 @@ module Jekyll
 categories: #{tags}
 ---
 #{content}
-
----
-<i>Reposted from <a href='#{entry.url}' rel='canonical'>#{@uri.host}</a></i>
+ <a href='#{entry.url}' rel='canonical'>[source]</a>
 DOC
+# above is where to change the source stuff — CP
+# ---
+# original incl. line above: <i>Source: <a href='#{entry.url}' rel='canonical'>#{@uri.host}</a></i>
 
         if !@options[:pretend]
           File.open filename, "w+" do |f|
